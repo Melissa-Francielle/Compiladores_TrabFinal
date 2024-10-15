@@ -1,8 +1,6 @@
 # Trabalho Final - Compiladores
 
-## Universidade do Norte do Paraná - UENP
-
-## Desenvolvimento de um Compilador  
+##### Universidade do Norte do Paraná - UENP. Desenvolvimento de um Compilador  
 ### Trabalho da Disciplina de Compiladores (3º ano)  
 
 **Docente**: Wellington Della Mura  
