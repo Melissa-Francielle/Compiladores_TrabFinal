@@ -4,10 +4,10 @@ programa : linhas+
         ;
 linhas : atrib  EOL
            | function
-           | decisionFunc
-           | loopFunc
            | in EOL //input 
            | out EOL //output
+           | decisionFunc
+           | loopFunc
            | calling_function EOL
            | library 
            | casting EOL
@@ -24,20 +24,77 @@ atrib : DOUBLE VAR '=' expression
     |   VAR '=' STR
     |   VAR '=' BOOL 
     ;
-//int funcao(expr){}
-function : 
-    
-    ;
+
 // scanf(expr);
 in : READ '('VAR')';
 //printf("mensagem", expr);
 out : PRINT '('VAR')';
 
+expression : terminais '+' expression
+            | terminais '-' expression
+            | terminais
+            ;
+terminais : fator '*' terminais
+        |   fator '/' terminais
+        |   fator '%' terminais
+        | fator
+        ;
+fator : '(' expression ')'
+    |   NUM | VAR | STR ; 
+
 // if () {} elif(){} else {} 
 decisionFunc : IF '('expression')' bloco
     |          IF '(' expression ')' ELSE bloco 
     |          IF '('expression')' bloco ELIF'('expression')' bloco ELSE bloco
+    ;
 
+loopFunc : WHILE '(' exprbloco ')' bloco 
+        ;
+
+bloco : '{' linhas+ '}' ;
+
+returnBloco : '{' returnBloco '}' ;
+
+returnBody : linhas 
+        |   linhas returnBody
+        |   RETURN BOOL EOL 
+        |   RETURN STR EOL 
+        |   RETURN expression EOL 
+        |   RETURN EOL
+        ;
+
+exprbloco : expression RELOP=(EQUAL |NEG | ME | MA | MEI | MAI) expression
+        |   expression
+        ;
+
+function : TYPE=(INT | DOUBLE | BOOLEAN | STRING) VAR '(' parametros')'
+        |  VOID VAR '('parametros')' returnBloco
+        ;
+
+parametros : TYPE=(INT | DOUBLE | BOOLEAN | STRING) VAR 
+        |   TYPE=(INT | DOUBLE | BOOLEAN | STRING) VAR VIR parametros
+        |
+        ;
+
+paramCall : fator   
+        |   fator VIR paramCall
+        |
+        ;
+
+calling_function : VAR '(' paramCall')'
+        ;
+
+library: IMPORT VAR EOL
+        ;
+
+casting: '('TYPE=(INT|BOOLEAN|STRING)')' VAR
+        ;
+
+typeof : TYPEOF '(' VAR ')'
+        ;
+
+ternary : exprbloco '?' e=bloco ':' e2=bloco
+        ;
 
 // Token virgula
 EOL : ';';
@@ -49,7 +106,7 @@ ELSE : 'else';
 ELIF : 'elif';
 //input e output
 PRINT : 'print';
-RD : 'read';
+READ : 'read';
 //tipos
 INT : 'int';
 DOUBLE : 'double';
@@ -78,10 +135,10 @@ VIR : ',';
 CD : '}';
 CE : '{';
 //Variaveis e números 
+NUM : [0-9]+;
 VAR: [a-zA-z]+;
 NUMDF : [0-9]+ '.' [0-9]+;
 TYPEOF : 'typeof';
-NUM : [0-9]+;
 STR : '"' ~[\n"]*'"';
 COMMENT: '//' ~[\r\n]* -> skip;
 BOOL : 'true'|'false';
