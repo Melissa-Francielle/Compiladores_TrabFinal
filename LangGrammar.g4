@@ -1,4 +1,4 @@
-grammar BasicGrammarATLR;
+grammar LangGrammar;
 
 programa : linhas+
         ;
@@ -23,6 +23,8 @@ atrib : DOUBLE VAR '=' expression
     |   BOOLEAN VAR '=' BOOL
     |   VAR '=' STR
     |   VAR '=' BOOL 
+    |   VAR SOMA SOMA 
+    |   VAR SUB SUB
     ;
 
 // scanf(expr);
@@ -40,15 +42,19 @@ terminais : fator '*' terminais
         | fator
         ;
 fator : '(' expression ')'
-    |   NUM | VAR | STR ; 
-
-// if () {} elif(){} else {} 
-decisionFunc : IF '('expression')' bloco
-    |          IF '(' expression ')' ELSE bloco 
-    |          IF '('expression')' bloco ELIF'('expression')' bloco ELSE bloco
+    |   NUM | VAR | STR
+    | VAR SOMA SOMA 
+    | VAR SUB SUB
     ;
 
-loopFunc : WHILE '(' exprbloco ')' bloco 
+// if () {} elif(){} else {} 
+decisionFunc : IF '('expression')' bTrue=bloco
+    |          IF '(' expression ')' bTrue=bloco ELSE bFalse=bloco 
+    |          IF '('expression')' bTrue=bloco ELIF'('expression')' bTrue2=bloco ELSE bFalse=bloco
+    ;
+
+loopFunc : WHILE '(' exprbloco ')' whileBlock=bloco 
+        | FOR '(' atrib EOL exprbloco EOL atrib')' forBlock=bloco
         ;
 
 bloco : '{' linhas+ '}' ;
@@ -65,6 +71,9 @@ returnBody : linhas
 
 exprbloco : expression RELOP=(EQUAL |NEG | ME | MA | MEI | MAI) expression
         |   expression
+        | c1=exprbloco AND c2=exprbloco
+        | c1=exprbloco OR c2=exprbloco
+        | NOT exprbloco
         ;
 
 function : TYPE=(INT | DOUBLE | BOOLEAN | STRING) VAR '(' parametros')'
@@ -103,6 +112,7 @@ WHILE : 'while';
 FOR : 'for';
 IF : 'if';
 ELSE : 'else';
+DO : 'do';
 ELIF : 'elif';
 //input e output
 PRINT : 'print';
@@ -122,6 +132,9 @@ MULT : '*';
 ASSING : '=';
 MOD : '%';
 //Op de lógica
+NOT: '!';
+AND: '&&';
+OR: '||';
 MAI: '>=';
 MEI: '<=';
 EQUAL : '==';
@@ -136,12 +149,13 @@ CD : '}';
 CE : '{';
 //Variaveis e números 
 NUM : [0-9]+;
-VAR: [a-zA-z]+;
+VAR : [_a-zA-Z_][_a-zA-Z_]*;
 NUMDF : [0-9]+ '.' [0-9]+;
 TYPEOF : 'typeof';
 STR : '"' ~[\n"]*'"';
 COMMENT: '//' ~[\r\n]* -> skip;
 BOOL : 'true'|'false';
+
 //importes, defines e returns 
 RETURN : 'return';
 IMPORT : '#import';
