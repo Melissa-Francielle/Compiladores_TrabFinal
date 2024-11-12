@@ -1,0 +1,1 @@
+antlr4-parse nomedoArquivodaGramatica.g4 prog -gui ArquivoComCOdigoTeste.extensao

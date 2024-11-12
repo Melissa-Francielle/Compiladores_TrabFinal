@@ -1,0 +1,1 @@
+antl4 -o Grammar/ -liestener -visistor - package nomeDaPasta.Grammar -Dlanguage=CSharp LangGrammar.g4

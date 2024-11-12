@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "Hzq2tU7qcig=",
+  "success": true,
+  "projectFilePath": "C:\\Users\\Melissamelsantos\\Documents\\Faculdade\\MATÉRIAS\\Compiladores\\TrabalhoComp\\TrabalhoComp.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\Melissamelsantos\\.nuget\\packages\\antlr4.runtime.standard\\4.13.1\\antlr4.runtime.standard.4.13.1.nupkg.sha512"
+  ],
+  "logs": []
+}

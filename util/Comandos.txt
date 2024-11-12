@@ -1,0 +1,22 @@
+
+Gerando a gramatica parser e lexer no ANTLR
+primeiro comando -  antlr4
+segundo comando - antl4 -o Grammar/ -liestener -visistor - package nomeDaPasta.Grammar -Dlanguage=CSharp LangGrammar.g4 
+Comando simplificado = ./util/grammarGen.bat
+
+
+Testando gramatica ANTLR
+antlr4-parse nomedoArquivodaGramatica.g4 prog -gui ArquivoComCOdigoTeste.extensao
+Comando simplificado= ./util/grammarTest.bat
+
+Verificar a versãod o antlr para poder conectar com o dotnet
+dotnet versão 8 
+verificar a versão do antlr (4.13.2)
+
+
+no google 
+nugget antlr 
+instala o package do antlr 4.13.1
+dotnet add package antlr4 runtime standard 
+
+
